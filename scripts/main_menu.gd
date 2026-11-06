@@ -82,7 +82,11 @@ func _on_new_game() -> void:
 
 func _on_continue() -> void:
 	if GameState.load_game():
-		get_tree().change_scene_to_file(GameState.current_scene)
+		var error := get_tree().change_scene_to_file(GameState.current_scene)
+		if error != OK:
+			_continue_button.text = "Could not resume"
+	else:
+		_continue_button.text = "Save could not be loaded"
 
 
 func _on_settings() -> void:
@@ -92,3 +96,4 @@ func _on_settings() -> void:
 
 func _on_quit() -> void:
 	get_tree().quit()
+

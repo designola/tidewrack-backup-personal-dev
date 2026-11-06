@@ -69,6 +69,9 @@ func _goto(id: String) -> void:
 	_current_id = id
 	var node: Dictionary = _graph[id]
 	_apply_flags(node.get("set_flag", {}))
+	var journal_id: Variant = node.get("journal_entry", "")
+	if typeof(journal_id) == TYPE_STRING and not journal_id.is_empty():
+		Journal.discover(journal_id)
 	line_shown.emit(
 		str(node.get("speaker", "")),
 		str(node.get("text", "")),
@@ -99,3 +102,4 @@ func _load_graph(path: String) -> Dictionary:
 		push_error("DialogueManager: dialogue file is not a JSON object: %s" % path)
 		return {}
 	return parsed
+
